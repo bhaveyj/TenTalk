@@ -127,17 +127,6 @@ bun start    # Start production server
 bun lint     # Run ESLint
 ```
 
-## 🌐 Deployment
-
-Deploy easily on [Vercel](https://vercel.com):
-
-1. Push your code to GitHub
-2. Import the project on Vercel
-3. Add your environment variables
-4. Deploy!
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/realtime_chat)
-
 ## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE).

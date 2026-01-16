@@ -1,0 +1,59 @@
+<svg width="220" height="220" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mixGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22c55e"></stop>
+      <stop offset="100%" stop-color="#16a34a"></stop>
+    </linearGradient>
+
+    <mask id="fadeMask">
+      <rect width="220" height="220" fill="white"></rect>
+      <circle cx="160" cy="160" r="18" fill="black"></circle>
+      <circle cx="140" cy="175" r="10" fill="black"></circle>
+      <circle cx="175" cy="140" r="8" fill="black"></circle>
+    </mask>
+  </defs>
+
+  <!-- Timer Ring (10 min concept) -->
+  <circle cx="110" cy="110" r="90" fill="none" stroke="url(#mixGrad)" stroke-width="6" stroke-dasharray="420" stroke-dashoffset="60" opacity="0.9"></circle>
+
+  <!-- Shield (security + destruction) -->
+  <path d="M110 35
+           L165 60
+           V115
+           C165 145 135 170 110 180
+           C85 170 55 145 55 115
+           V60 Z" fill="url(#mixGrad)" mask="url(#fadeMask)"></path>
+
+  <!-- Chat bubble back -->
+  <path d="M85 90
+           h45
+           a15 15 0 0 1 15 15
+           v10
+           a15 15 0 0 1 -15 15
+           h-15
+           l-12 10
+           v-10
+           h-18
+           a15 15 0 0 1 -15 -15
+           v-10
+           a15 15 0 0 1 15 -15 z" fill="#052e16" opacity="0.95"></path>
+
+  <!-- Chat bubble front -->
+  <path d="M95 95
+           h45
+           a12 12 0 0 1 12 12
+           v8
+           a12 12 0 0 1 -12 12
+           h-12
+           l-10 8
+           v-8
+           h-23
+           a12 12 0 0 1 -12 -12
+           v-8
+           a12 12 0 0 1 12 -12 z" fill="#ecfdf5"></path>
+
+  <!-- Anonymous dots -->
+  <circle cx="105" cy="120" r="3" fill="#22c55e"></circle>
+  <circle cx="120" cy="120" r="3" fill="#22c55e"></circle>
+  <circle cx="135" cy="120" r="3" fill="#22c55e"></circle>
+</svg>

@@ -8,22 +8,13 @@ const BOT_UA_PATTERN =
 const shouldSkipParticipantRegistration = (req: NextRequest) => {
   const userAgent = req.headers.get("user-agent") ?? "";
   const purpose = req.headers.get("purpose") ?? req.headers.get("sec-purpose") ?? "";
-  const secFetchDest = req.headers.get("sec-fetch-dest") ?? "";
-  const secFetchMode = req.headers.get("sec-fetch-mode") ?? "";
-  const secFetchUser = req.headers.get("sec-fetch-user") ?? "";
-  const accept = req.headers.get("accept") ?? "";
+  const nextRouterPrefetch = req.headers.get("next-router-prefetch") ?? "";
 
   if (BOT_UA_PATTERN.test(userAgent)) return true;
   if (purpose.toLowerCase().includes("prefetch")) return true;
+  if (nextRouterPrefetch) return true;
 
-  const isLikelyDocumentNavigation =
-    accept.includes("text/html") &&
-    (secFetchDest === "document" ||
-      secFetchMode === "navigate" ||
-      secFetchUser === "?1" ||
-      (!secFetchDest && !secFetchMode && !secFetchUser));
-
-  return !isLikelyDocumentNavigation;
+  return false;
 };
 
 export const proxy = async (req: NextRequest) => {

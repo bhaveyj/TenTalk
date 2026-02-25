@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { redis } from "./lib/redis";
 import { nanoid } from "nanoid";
 
+const MAX_ROOM_PARTICIPANTS = 3;
+
 const BOT_UA_PATTERN =
   /(bot|crawler|spider|preview|facebookexternalhit|whatsapp|telegrambot|twitterbot|slackbot|discordbot|linkedinbot)/i;
 
@@ -41,7 +43,7 @@ export const proxy = async (req: NextRequest) => {
     return NextResponse.next();
   }
 
-  if (meta.connected.length >= 2) {
+  if (meta.connected.length >= MAX_ROOM_PARTICIPANTS) {
     return NextResponse.redirect(new URL("/?error=room-full", req.url));
   }
 

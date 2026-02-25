@@ -2,6 +2,30 @@ import { NextRequest, NextResponse } from "next/server";
 import { redis } from "./lib/redis";
 import { nanoid } from "nanoid";
 
+const BOT_UA_PATTERN =
+  /(bot|crawler|spider|preview|facebookexternalhit|whatsapp|telegrambot|twitterbot|slackbot|discordbot|linkedinbot)/i;
+
+const shouldSkipParticipantRegistration = (req: NextRequest) => {
+  const userAgent = req.headers.get("user-agent") ?? "";
+  const purpose = req.headers.get("purpose") ?? req.headers.get("sec-purpose") ?? "";
+  const secFetchDest = req.headers.get("sec-fetch-dest") ?? "";
+  const secFetchMode = req.headers.get("sec-fetch-mode") ?? "";
+  const secFetchUser = req.headers.get("sec-fetch-user") ?? "";
+  const accept = req.headers.get("accept") ?? "";
+
+  if (BOT_UA_PATTERN.test(userAgent)) return true;
+  if (purpose.toLowerCase().includes("prefetch")) return true;
+
+  const isLikelyDocumentNavigation =
+    accept.includes("text/html") &&
+    (secFetchDest === "document" ||
+      secFetchMode === "navigate" ||
+      secFetchUser === "?1" ||
+      (!secFetchDest && !secFetchMode && !secFetchUser));
+
+  return !isLikelyDocumentNavigation;
+};
+
 export const proxy = async (req: NextRequest) => {
   const pathname = req.nextUrl.pathname;
   const roomMatch = pathname.match(/^\/room\/([^/]+)$/);
@@ -15,6 +39,10 @@ export const proxy = async (req: NextRequest) => {
 
   if (!meta)
     return NextResponse.redirect(new URL("/?error=room-not-found", req.url));
+
+  if (shouldSkipParticipantRegistration(req)) {
+    return NextResponse.next();
+  }
 
   const existingToken = req.cookies.get("x-auth-token")?.value;
 
